@@ -1,0 +1,5 @@
+0:0:0:0:0:0:0:1 - - [17/Mar/2018:13:11:49 +0700] "GET /RESTfulWebService/rest/distance/3-4/3-4 HTTP/1.1" 404 - http-bio-8080-exec-1 165
+0:0:0:0:0:0:0:1 - - [17/Mar/2018:13:11:54 +0700] "GET /RESTfulWebService/rest/distance/3-4/3-4 HTTP/1.1" 404 - http-bio-8080-exec-2 1
+0:0:0:0:0:0:0:1 - - [17/Mar/2018:13:11:57 +0700] "GET /RESTfulWebService/rest/distances/3-4/3-4 HTTP/1.1" 200 146 http-bio-8080-exec-3 17
+0:0:0:0:0:0:0:1 - - [17/Mar/2018:13:16:52 +0700] "GET /RESTfulWebService/rest/distances/500359-0054253/583838-0030412 HTTP/1.1" 200 182 http-bio-8080-exec-2 86
+0:0:0:0:0:0:0:1 - - [17/Mar/2018:13:18:35 +0700] "GET /RESTfulWebService/rest/distances/50,0359-005,4253/58,3838-003,0412 HTTP/1.1" 500 3511 http-bio-8080-exec-4 15
