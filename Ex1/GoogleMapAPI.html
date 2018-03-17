@@ -50,7 +50,7 @@
 </head>
 <body>
     <div id="floating-panel">
-        <input id="latlng" type="text" value="40.714224,-73.961452">
+        <input id="latlng" type="text" value="10.881784, 106.804496">
         <input id="submit" type="button" value="Show the address">
     </div>
     <div id="map"></div>
@@ -86,7 +86,7 @@
                         window.alert('No results found');
                     }
                 } else {
-                    window.alert('Geocoder failed due to: ' + status);
+                    window.alert('Failed due to: ' + status);
                 }
             });
         }
