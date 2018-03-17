@@ -1,98 +1,70 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
-    <title>Example</title>
+﻿<!DOCTYPE html> 
+<html> 
+<head> 
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no"/> 
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"/> 
+<title>Reverse Geocoding</title>
     <style>
-         /* Always set the map height explicitly to define the size of the div
-        * element that contains the map. */
-         #map {
-             height: 100%;
-         }
-         /* Optional: Makes the sample page fill the window. */
-         html, body {
-             height: 100%;
-             margin: 0;
-             padding: 0;
-         }
-
-         #floating-panel {
-             position: absolute;
-             top: 10px;
-             left: 25%;
-             z-index: 5;
-             background-color: #fff;
-             padding: 5px;
-             border: 1px solid #999;
-             text-align: center;
-             font-family: 'Roboto','sans-serif';
-             line-height: 30px;
-             padding-left: 10px;
-         }
-
-         #floating-panel {
-             position: absolute;
-             top: 5px;
-             left: 50%;
-             margin-left: -180px;
-             width: 350px;
-             z-index: 5;
-             background-color: #fff;
-             padding: 5px;
-             border: 1px solid #999;
-         }
-
-         #latlng {
-             width: 225px;
-         }
+        #form{
+            width: 100%;
+            text-align:center;
+        }
     </style>
 </head>
 <body>
-    <div id="floating-panel">
-        <input id="latlng" type="text" value="10.881784, 106.804496">
-        <input id="submit" type="button" value="Show the address">
-    </div>
-    <div id="map"></div>
-    <script>
-        function initMap() {
-            var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 8,
-                center: { lat: 40.731, lng: -73.997 }
-            });
-            var geocoder = new google.maps.Geocoder;
-            var infowindow = new google.maps.InfoWindow;
+    <div id="form">
+        <p>Latitude: <input id="lat" type="text" value=""></p> 
+        <p>Longitude: <input id="lng" type="text" value=""></p>
+        <input id="submit" type="submit" value="Show the address" onclick="displayLocation()"><br />
+     </div>
+<script>
+    function displayLocation() {
+            var latitude = document.getElementById("lat").value;
+            var longitude = document.getElementById("lng").value;
 
-            document.getElementById('submit').addEventListener('click', function () {
-                geocodeLatLng(geocoder, map, infowindow);
-            });
-        }
+            var request = new XMLHttpRequest();
 
-        function geocodeLatLng(geocoder, map, infowindow) {
-            var input = document.getElementById('latlng').value;
-            var latlngStr = input.split(',', 2);
-            var latlng = { lat: parseFloat(latlngStr[0]), lng: parseFloat(latlngStr[1]) };
-            geocoder.geocode({ 'location': latlng }, function (results, status) {
-                if (status === 'OK') {
-                    if (results[0]) {
-                        map.setZoom(11);
-                        var marker = new google.maps.Marker({
-                            position: latlng,
-                            map: map
-                        });
-                        infowindow.setContent(results[0].formatted_address);
-                        infowindow.open(map, marker);
-                    } else {
-                        window.alert('No results found');
-                    }
-                } else {
-                    window.alert('Failed due to: ' + status);
+            var method = 'GET';
+            var url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='
+                    + latitude + ',' + longitude + '&sensor=true';
+            var async = true;
+
+            request.open(method, url, async);
+            request.onreadystatechange = function() {
+                if (request.readyState == 4 && request.status == 200) {
+                    var data = JSON.parse(request.responseText);
+                    var address = data.results[0];
+                    //var value = address.formatted_address.split(",");
+                    //count = value.length;
+                    //country=value[count-1];
+                    //state = value[count - 2];
+                        //city = value[count - 3];
+                    //alert(city);
+                    alert(address.formatted_address);
+
                 }
-            });
-        }
-    </script>
-    <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzzptde1VcHcCi6w-8SrVu1puwERGba2M&callback=initMap">
-    </script>
-</body>
+            };
+            request.send();
+        };
+
+        var successCallback = function(position) {
+            var x = position.coords.latitude;
+            var y = position.coords.longitude;
+            displayLocation(x, y);
+        };
+
+        var errorCallback = function(error) {
+
+        };
+
+        var options = {
+            enableHighAccuracy : true,
+            timeout : 1000,
+            maximumAge : 0
+        };
+
+        navigator.geolocation.getCurrentPosition(successCallback, errorCallback,
+                options);
+</script>
+</body> 
 </html>
